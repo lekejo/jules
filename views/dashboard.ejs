@@ -28,8 +28,8 @@
         <% } %>
     </div>
 
+    <!-- Charts container - canvases will always be rendered if totalRefills > 0 -->
     <div class="charts-container">
-        <% if (stats.totalRefills > 1) { %>
         <div class="chart-card">
             <h2>Fuel Consumption (L/100Km)</h2>
             <canvas id="litrePer100KmChart"></canvas>
@@ -42,9 +42,6 @@
             <h2>Days Between Refills</h2>
             <canvas id="daysBetweenRefillsChart"></canvas>
         </div>
-        <% } else { %>
-            <p class="text-center">Not enough data for charts. Please add at least two refills.</p>
-        <% } %>
     </div>
 
 <% } else { %>
@@ -57,15 +54,15 @@
     const stats = <%- JSON.stringify(typeof stats !== 'undefined' ? stats : {}) %>;
     const refillDetails = stats.refillDetails || [];
 
-    if (refillDetails.length > 1) { 
-      const labels = refillDetails.slice(1).map(r => new Date(r.date).toLocaleDateString());
-      
-      // Chart 1: L/100Km
-      const litrePer100KmData = refillDetails.slice(1).map(r => parseFloat(r.litrePer100Km) || 0);
-      new Chart(document.getElementById('litrePer100KmChart'), {
+    // Litre/100Km Chart (can show with 1+ refills)
+    const litrePer100KmCanvas = document.getElementById('litrePer100KmChart');
+    if (litrePer100KmCanvas && refillDetails.length > 0) {
+      const litrePer100KmLabels = refillDetails.map(r => new Date(r.date).toLocaleDateString());
+      const litrePer100KmData = refillDetails.map(r => parseFloat(r.litrePer100Km) || 0);
+      new Chart(litrePer100KmCanvas, {
         type: 'line',
         data: {
-          labels: labels,
+          labels: litrePer100KmLabels,
           datasets: [{
             label: 'L/100Km',
             data: litrePer100KmData,
@@ -76,13 +73,21 @@
         },
         options: { responsive: true, maintainAspectRatio: false }
       });
+    } else if (litrePer100KmCanvas) {
+        const ctx = litrePer100KmCanvas.getContext('2d');
+        ctx.font = '16px Arial'; ctx.textAlign = 'center';
+        ctx.fillText('Not enough data for this chart.', litrePer100KmCanvas.width / 2, litrePer100KmCanvas.height / 2);
+    }
 
-      // Chart 2: Cost per Km
-      const costPerKmData = refillDetails.slice(1).map(r => parseFloat(r.costPerKm) || 0);
-      new Chart(document.getElementById('costPerKmChart'), {
+    // Cost per Km Chart (can show with 1+ refills)
+    const costPerKmCanvas = document.getElementById('costPerKmChart');
+    if (costPerKmCanvas && refillDetails.length > 0) {
+      const costPerKmLabels = refillDetails.map(r => new Date(r.date).toLocaleDateString());
+      const costPerKmData = refillDetails.map(r => parseFloat(r.costPerKm) || 0);
+      new Chart(costPerKmCanvas, {
         type: 'line',
         data: {
-          labels: labels,
+          labels: costPerKmLabels,
           datasets: [{
             label: 'Cost per Km (Rs.)',
             data: costPerKmData,
@@ -93,31 +98,34 @@
         },
         options: { responsive: true, maintainAspectRatio: false }
       });
-      
-      // Chart 3: Days Between Refills
-      const daysBetweenRefillsData = refillDetails.slice(1).map(r => parseInt(r.daysSinceLastRefill) || 0);
-      new Chart(document.getElementById('daysBetweenRefillsChart'), {
+    } else if (costPerKmCanvas) {
+        const ctx = costPerKmCanvas.getContext('2d');
+        ctx.font = '16px Arial'; ctx.textAlign = 'center';
+        ctx.fillText('Not enough data for this chart.', costPerKmCanvas.width / 2, costPerKmCanvas.height / 2);
+    }
+
+    // Days Between Refills Chart (requires 2+ refills)
+    const daysBetweenRefillsCanvas = document.getElementById('daysBetweenRefillsChart');
+    if (daysBetweenRefillsCanvas && refillDetails.length > 1) {
+      const daysLabels = refillDetails.slice(1).map(r => new Date(r.date).toLocaleDateString());
+      const daysData = refillDetails.slice(1).map(r => parseInt(r.daysSinceLastRefill) || 0);
+      new Chart(daysBetweenRefillsCanvas, {
         type: 'bar',
         data: {
-          labels: labels,
+          labels: daysLabels,
           datasets: [{
             label: 'Days Between Refills',
-            data: daysBetweenRefillsData,
+            data: daysData,
             borderColor: 'rgb(75, 192, 192)',
             backgroundColor: 'rgba(75, 192, 192, 0.5)',
           }]
         },
         options: { responsive: true, maintainAspectRatio: false }
       });
-
-    } else if (document.getElementById('litrePer100KmChart')) { // Check if canvas elements are there
-        // This case is now handled by EJS logic, but keep for robustness if needed
-        document.querySelectorAll('.charts-container canvas').forEach(canvas => {
-            const ctx = canvas.getContext('2d');
-            ctx.font = '16px Arial';
-            ctx.textAlign = 'center';
-            ctx.fillText('Not enough data for charts.', canvas.width / 2, canvas.height / 2);
-        });
+    } else if (daysBetweenRefillsCanvas) {
+        const ctx = daysBetweenRefillsCanvas.getContext('2d');
+        ctx.font = '16px Arial'; ctx.textAlign = 'center';
+        ctx.fillText('Need at least two refills to show days between them.', daysBetweenRefillsCanvas.width / 2, daysBetweenRefillsCanvas.height / 2);
     }
   });
 </script>

@@ -20,6 +20,8 @@
   "homepage": "https://github.com/lekejo/jules#readme",
   "dependencies": {
     "cors": "^2.8.5",
-    "express": "^5.1.0"
+    "ejs": "^3.1.10",
+    "express": "^5.1.0",
+    "sqlite3": "^5.1.7"
   }
 }

@@ -1,0 +1,211 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+    line-height: 1.6;
+}
+
+nav {
+    background: #333;
+    color: #fff;
+    padding: 1rem 0;
+    text-align: center;
+}
+
+nav ul {
+    padding: 0;
+    list-style: none;
+    margin: 0;
+}
+
+nav ul li {
+    display: inline;
+    margin-right: 20px;
+}
+
+nav a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.1rem;
+}
+nav a:hover {
+    text-decoration: underline;
+}
+
+main {
+    padding: 20px;
+    max-width: 800px;
+    margin: 20px auto;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    background: #333;
+    color: #fff;
+    margin-top: 30px;
+}
+
+h1, h2 {
+    color: #333;
+}
+
+a {
+    color: #007bff; /* Bootstrap primary blue */
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
+
+/* Form styling */
+form div {
+    margin-bottom: 15px;
+}
+form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+form input[type="text"],
+form input[type="number"],
+form input[type="date"],
+form select {
+    width: calc(100% - 22px); /* Adjust for padding/border */
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box; /* Important */
+}
+form input[readonly] {
+    background-color: #e9ecef;
+}
+form button[type="submit"], .button-link {
+    display: inline-block;
+    background: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none; /* For button-link */
+    font-size: 1rem;
+    margin-top: 10px;
+}
+form button[type="submit"]:hover, .button-link:hover {
+    background: #0056b3;
+}
+
+/* Table styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+table th, table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+table th {
+    background-color: #f2f2f2;
+}
+table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+.actions-cell form {
+    display: inline; /* Make delete form inline with edit link */
+    margin-right: 5px;
+}
+.actions-cell button[type="submit"] {
+    padding: 5px 10px;
+    font-size: 0.9rem;
+    background-color: #dc3545; /* Red for delete */
+}
+.actions-cell button[type="submit"]:hover {
+    background-color: #c82333;
+}
+.actions-cell a.button-link {
+     padding: 5px 10px;
+     font-size: 0.9rem;
+     background-color: #ffc107; /* Yellow for edit */
+     color: #212529;
+}
+.actions-cell a.button-link:hover {
+    background-color: #e0a800;
+}
+
+/* Utility classes */
+.text-center {
+    text-align: center;
+}
+.mt-20 {
+    margin-top: 20px;
+}
+
+/* Dashboard specific styles */
+.stats-cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.stat-card {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    flex: 1; /* Distribute space equally */
+    min-width: 200px; /* Minimum width before wrapping */
+    text-align: center;
+    border-left: 5px solid #007bff; /* Accent color */
+}
+.stat-card:nth-child(2) { border-left-color: #28a745; /* Green */ }
+.stat-card:nth-child(3) { border-left-color: #ffc107; /* Yellow */ }
+.stat-card:nth-child(4) { border-left-color: #dc3545; /* Red */ }
+.stat-card:nth-child(5) { border-left-color: #17a2b8; /* Info Blue */ }
+
+
+.stat-card h2 {
+    margin-top: 0;
+    font-size: 1.2rem;
+    color: #6c757d; /* Muted color for heading */
+}
+
+.stat-card .stat-value {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #343a40; /* Darker color for value */
+}
+
+.charts-container {
+    display: flex;
+    flex-direction: column; /* Or row if you prefer side-by-side */
+    gap: 30px;
+}
+
+.chart-card {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    height: 400px; /* Fixed height for chart canvas container */
+}
+.chart-card h2 {
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+}
+
+/* Ensure canvas is responsive within its container */
+canvas {
+    max-width: 100%;
+    max-height: 100%; /* Ensure it respects container height */
+}

@@ -1,0 +1,12 @@
+<%- include('../partials/header') %>
+
+<h1>Settings</h1>
+<form action="/settings" method="POST">
+    <div>
+        <label for="currentFuelPrice">Current Fuel Price (Rs.):</label>
+        <input type="number" id="currentFuelPrice" name="currentFuelPrice" step="0.01" value="<%= typeof currentFuelPrice !== 'undefined' ? currentFuelPrice.toFixed(2) : '0.00' %>" required>
+    </div>
+    <button type="submit">Update Price</button>
+</form>
+
+<%- include('../partials/footer') %>

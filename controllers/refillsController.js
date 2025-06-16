@@ -2,13 +2,30 @@ const db = require('../models/database');
 
 // GET /refills - List all refills
 exports.getAllRefills = (req, res) => {
-  db.all("SELECT * FROM Refills ORDER BY date DESC", [], (err, rows) => {
-    if (err) {
-      console.error(err.message);
-      return res.status(500).send("Error retrieving refills");
+  db.get("SELECT currentFuelPrice FROM Settings WHERE id = 1", [], (settingsErr, settingsRow) => {
+    let modalFuelPrice = 0.0; // Default price
+    if (settingsErr) {
+      console.error("Error fetching settings for modal in getAllRefills:", settingsErr.message);
+      // Proceed with default modalFuelPrice
+    } else if (!settingsRow) {
+      console.warn("No settings row found (id=1) for modal in getAllRefills. Defaulting price to 0.0.");
+      // Proceed with default modalFuelPrice
+    } else {
+      modalFuelPrice = settingsRow.currentFuelPrice;
+      console.log("Fetched currentFuelPrice for modal in getAllRefills:", modalFuelPrice);
     }
-    // TODO: Create views/refills/index.ejs later
-    res.render('refills/index', { title: 'All Refills', refills: rows });
+
+    db.all("SELECT * FROM Refills ORDER BY date DESC", [], (err, rows) => {
+      if (err) {
+        console.error("Error retrieving refills in getAllRefills:", err.message);
+        return res.status(500).send("Error retrieving refills");
+      }
+      res.render('refills/index', {
+        title: 'All Refills',
+        refills: rows,
+        currentFuelPriceForModal: modalFuelPrice
+      });
+    });
   });
 };
 
@@ -20,9 +37,20 @@ exports.getNewRefillForm = (req, res) => {
       return res.status(500).send("Error retrieving settings for new refill form");
     }
     // TODO: Create views/refills/form.ejs or new.ejs later
+    const currentPrice = setting ? setting.currentFuelPrice : 0.0;
+    if (setting) {
+        console.log("Fetched currentFuelPrice for new refill form (and modal):", currentPrice);
+    } else if (err) {
+        // Error already logged by this point if settingsErr was the primary error
+        console.error("Error was present when fetching settings for new refill form.");
+    } else {
+        console.warn("No settings row found for new refill form. Defaulting price to 0.0.");
+    }
+
     res.render('refills/form', {
       title: 'Add New Refill',
-      currentFuelPrice: setting ? setting.currentFuelPrice : 0.0,
+      currentFuelPrice: currentPrice, // For the form field itself
+      currentFuelPriceForModal: currentPrice, // For the settings modal
       refill: {}, // For form reusability (empty for new)
       actionUrl: '/refills' // Form POSTs to /refills
     });
@@ -71,12 +99,26 @@ exports.getEditRefillForm = (req, res) => {
     if (!refill) {
       return res.status(404).send("Refill not found");
     }
-    // TODO: Create views/refills/form.ejs or edit.ejs later
-    res.render('refills/form', {
-      title: 'Edit Refill',
-      currentFuelPrice: refill.fuelPrice, // Use the price at the time of refill for editing
-      refill: refill,
-      actionUrl: `/refills/${id}` // Form POSTs to /refills/:id
+
+    db.get("SELECT currentFuelPrice FROM Settings WHERE id = 1", [], (settingsErr, settingsRow) => {
+      let modalFuelPrice = 0.0; // Default price
+      if (settingsErr) {
+        console.error("Error fetching settings for modal in getEditRefillForm:", settingsErr.message);
+      } else if (!settingsRow) {
+        console.warn("No settings row found (id=1) for modal in getEditRefillForm. Defaulting price to 0.0.");
+      } else {
+        modalFuelPrice = settingsRow.currentFuelPrice;
+        console.log("Fetched currentFuelPrice for modal in getEditRefillForm:", modalFuelPrice);
+      }
+
+      res.render('refills/form', {
+        title: 'Edit Refill',
+        // currentFuelPrice here is for the form field, pre-filled with the specific refill's historical price
+        currentFuelPrice: refill.fuelPrice,
+        refill: refill,
+        actionUrl: `/refills/${id}`, // Form POSTs to /refills/:id
+        currentFuelPriceForModal: modalFuelPrice // Global price for the modal
+      });
     });
   });
 };

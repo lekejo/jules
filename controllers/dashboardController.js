@@ -99,17 +99,25 @@ exports.getDashboardData = (req, res) => {
 
     // Fetch current fuel price for the modal
     db.get("SELECT currentFuelPrice FROM Settings WHERE id = 1", [], (settingsErr, settingsRow) => {
+      let modalFuelPrice = 0.0; // Default value
       if (settingsErr) {
         console.error("Error fetching settings for modal in dashboardController:", settingsErr.message);
-        stats.currentFuelPriceForModal = 0.0; // Default if error
+        // modalFuelPrice remains 0.0
       } else if (!settingsRow) {
         console.warn("No settings row found (id=1) for modal in dashboardController. Defaulting price to 0.0.");
-        stats.currentFuelPriceForModal = 0.0;
+        // modalFuelPrice remains 0.0
       } else {
         console.log("Fetched currentFuelPrice for modal:", settingsRow.currentFuelPrice);
-        stats.currentFuelPriceForModal = settingsRow.currentFuelPrice;
+        modalFuelPrice = settingsRow.currentFuelPrice;
       }
-      res.render('dashboard', { title: 'Dashboard', stats });
+      // The 'stats' object no longer needs 'currentFuelPriceForModal'
+      // delete stats.currentFuelPriceForModal; // Optional: explicitly remove if it was ever set on stats
+
+      res.render('dashboard', {
+        title: 'Dashboard',
+        stats: stats,
+        currentFuelPriceForModal: modalFuelPrice // Passed as a top-level variable
+      });
     });
   });
 };

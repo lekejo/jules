@@ -33,7 +33,7 @@
     </div>
 </div>
 <script>
-    const globalCurrentFuelPrice = '<%= (typeof stats !== "undefined" && typeof stats.currentFuelPriceForModal !== "undefined") ? parseFloat(stats.currentFuelPriceForModal).toFixed(2) : "0.00" %>';
+    const globalCurrentFuelPrice = '<%= (typeof currentFuelPriceForModal !== "undefined" && currentFuelPriceForModal !== null) ? parseFloat(currentFuelPriceForModal).toFixed(2) : "0.00" %>';
 </script>
 <script src="/js/main.js"></script>
 </body>

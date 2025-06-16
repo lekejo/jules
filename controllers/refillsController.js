@@ -85,13 +85,13 @@ exports.getEditRefillForm = (req, res) => {
 exports.updateRefill = (req, res) => {
   const { id } = req.params;
   const { fuelPrice, refillCost, odometerReading, date } = req.body; // fuelPrice is part of body
-  
+
   // Basic validation
   if (!fuelPrice || !refillCost || !odometerReading || !date) {
     return res.status(400).send("Missing required fields for update.");
   }
 
-  const sql = `UPDATE Refills 
+  const sql = `UPDATE Refills
                SET fuelPrice = ?, refillCost = ?, odometerReading = ?, date = ?, updatedAt = datetime('now')
                WHERE id = ?`;
   db.run(sql, [fuelPrice, refillCost, odometerReading, date, id], function(err) {

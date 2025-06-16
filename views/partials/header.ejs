@@ -4,15 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= typeof title !== 'undefined' ? title : 'Fuel Management App' %></title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="/css/style.css">
 </head>
-<body>
-    <nav>
-        <ul>
-            <li><a href="/">Home</a></li>
-            <li><a href="/refills">Refills</a></li>
-            <li><a href="/dashboard">Dashboard</a></li> <!-- Link added -->
-            <li><a href="/settings">Settings</a></li>
-        </ul>
+<body class="bg-gray-100"> <!-- Added a light background to the body for overall page -->
+    <nav class="bg-gray-800 shadow-md">
+        <div class="container mx-auto px-6 py-3">
+            <div class="flex items-center justify-between">
+                <div>
+                    <!-- App Name / Logo Placeholder -->
+                    <a href="/" class="text-xl font-bold text-white hover:text-gray-200">FuelApp</a>
+                </div>
+                <ul class="flex items-center space-x-2">
+                    <li><a href="/" class="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Home</a></li>
+                    <li><a href="/refills" class="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Refills</a></li>
+                    <li><button id="openSettingsModal" class="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white focus:outline-none">Settings</button></li>
+                </ul>
+            </div>
+        </div>
     </nav>
-    <main>
+    <main class="container mx-auto px-4 py-8"> <!-- Added container and padding to main content area -->

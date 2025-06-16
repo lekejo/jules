@@ -4,7 +4,7 @@ exports.getDashboardData = (req, res) => {
   // Fetch all refills, sorted by date and then odometer to handle multiple refills on the same day correctly.
   // It's crucial that odometer readings are strictly increasing for correct calculations.
   const sql = "SELECT * FROM Refills ORDER BY date ASC, odometerReading ASC";
-  
+
   db.all(sql, [], (err, refills) => {
     if (err) {
       console.error("Error fetching refills for dashboard:", err.message);
@@ -26,7 +26,7 @@ exports.getDashboardData = (req, res) => {
     }
 
     stats.totalSpent = refills.reduce((acc, r) => acc + r.refillCost, 0);
-    
+
     // totalOdometerDistance and totalFuelQuantity will be calculated differently for overall stats
     // Initialize them here if they are purely sums from refillDetails
     stats.totalOdometerDistance = 0; // This will be sum of trip distances for overall stats
@@ -45,7 +45,7 @@ exports.getDashboardData = (req, res) => {
 
       // Per-refill performance stats using odometerReading as trip distance
       // The 'odometerReading' field from DB is now treated as the trip distance for THIS refill
-      const distanceDriven = currentRefill.odometerReading; 
+      const distanceDriven = currentRefill.odometerReading;
       detail.distanceDriven = distanceDriven; // Store the trip distance
 
       if (distanceDriven > 0) {
@@ -73,10 +73,10 @@ exports.getDashboardData = (req, res) => {
       } else {
         detail.daysSinceLastRefill = 'N/A'; // First refill
       }
-      
+
       stats.refillDetails.push(detail);
     }
-    
+
     // Update: Overall stats calculation will be revised in the next step.
     // For now, just ensure totalFuelQuantity is summed correctly.
     // stats.totalOdometerDistance will be the sum of all `detail.distanceDriven`.
@@ -96,7 +96,17 @@ exports.getDashboardData = (req, res) => {
     } else {
         stats.overallCostPerKm = 0;
     }
-    
-    res.render('dashboard', { title: 'Dashboard', stats });
+
+    // Fetch current fuel price for the modal
+    db.get("SELECT currentFuelPrice FROM Settings WHERE id = 1", [], (settingsErr, settingsRow) => {
+      if (settingsErr) {
+        console.error("Error fetching settings for modal:", settingsErr.message);
+        // Continue without modal price or send error? For now, proceed without it.
+        stats.currentFuelPriceForModal = 0.0; // Default if error
+      } else {
+        stats.currentFuelPriceForModal = settingsRow ? settingsRow.currentFuelPrice : 0.0;
+      }
+      res.render('dashboard', { title: 'Dashboard', stats });
+    });
   });
 };

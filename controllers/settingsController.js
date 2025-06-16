@@ -10,10 +10,10 @@ exports.getSettings = (req, res) => {
     }
     // TODO: Create views/settings.ejs later
     // For now, send JSON or a placeholder
-    res.render('settings', { 
-        title: 'Settings', 
-        currentFuelPrice: row ? row.currentFuelPrice : 0.0 
-    }); 
+    res.render('settings', {
+        title: 'Settings',
+        currentFuelPrice: row ? row.currentFuelPrice : 0.0
+    });
   });
 };
 
@@ -36,8 +36,10 @@ exports.updateSettings = (req, res) => {
     }
     if (this.changes === 0) {
         // This case should ideally not happen if the default row was inserted correctly
-        return res.status(500).send("Failed to update settings, settings record not found.");
+        // However, with the modal, a redirect to / might still be fine.
+        // Or consider returning a specific status/message if no changes were made.
+        console.warn("Settings update: No rows changed. This might indicate an issue if an update was expected.");
     }
-    res.redirect('/settings'); // Redirect back to settings page to see the change
+    res.redirect('/'); // Redirect to dashboard (home page)
   });
 };

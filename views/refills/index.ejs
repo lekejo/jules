@@ -1,38 +1,59 @@
 <%- include('../partials/header') %>
 
-<h1><%= title %></h1>
-<p><a href="/refills/new" class="button-link">Add New Refill</a></p>
+<div class="container mx-auto px-4 py-8">
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-3xl font-bold text-gray-800"><%= title %></h1>
+        <a href="/refills/new" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded inline-flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
+            </svg>
+            Add New Refill
+        </a>
+    </div>
 
-<% if (refills && refills.length) { %>
-    <table>
-        <thead>
-            <tr>
-                <th>Date</th>
-                <th>Odometer (km)</th>
-                <th>Refill Cost (Rs.)</th>
-                <th>Fuel Price (Rs./L)</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            <% refills.forEach(refill => { %>
-                <tr>
-                    <td><%= new Date(refill.date).toLocaleDateString() %></td>
-                    <td><%= refill.odometerReading %></td>
-                    <td><%= refill.refillCost.toFixed(2) %></td>
-                    <td><%= refill.fuelPrice.toFixed(2) %></td>
-                    <td class="actions-cell">
-                        <a href="/refills/<%= refill.id %>/edit" class="button-link">Edit</a>
-                        <form action="/refills/<%= refill.id %>/delete" method="POST" style="display:inline;">
-                            <button type="submit" onclick="return confirm('Are you sure you want to delete this refill?');">Delete</button>
-                        </form>
-                    </td>
-                </tr>
-            <% }) %>
-        </tbody>
-    </table>
-<% } else { %>
-    <p>No refills logged yet.</p>
-<% } %>
+    <% if (refills && refills.length) { %>
+        <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Odometer (km)</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Refill Cost (Rs.)</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Fuel Price (Rs./L)</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    <% refills.forEach(refill => { %>
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700"><%= new Date(refill.date).toLocaleDateString() %></td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700"><%= refill.odometerReading %></td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700"><%= refill.refillCost.toFixed(2) %></td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700"><%= refill.fuelPrice.toFixed(2) %></td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                <a href="/refills/<%= refill.id %>/edit" class="text-indigo-600 hover:text-indigo-900 inline-flex items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                                        <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
+                                    </svg>
+                                    Edit
+                                </a>
+                                <form action="/refills/<%= refill.id %>/delete" method="POST" class="inline-block ml-3">
+                                    <button type="submit" onclick="return confirm('Are you sure you want to delete this refill?');" class="text-red-600 hover:text-red-900 inline-flex items-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                                            <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
+                                        </svg>
+                                        Delete
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        </div>
+    <% } else { %>
+        <p class="text-center text-gray-500 mt-6">No refills logged yet. <a href="/refills/new" class="text-blue-500 hover:underline">Add your first one!</a></p>
+    <% } %>
+</div>
 
 <%- include('../partials/footer') %>

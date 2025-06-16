@@ -1,33 +1,63 @@
 <%- include('../partials/header') %>
 
-<h1><%= title %></h1>
-<form action="<%= actionUrl %>" method="POST">
-    <% if (refill && refill.id) { %>
-        <!-- Standard POST, backend logic handles it as update -->
-    <% } %>
-    <div>
-        <label for="date">Date:</label>
-        <input type="date" id="date" name="date" value="<%= refill.date ? new Date(refill.date).toISOString().split('T')[0] : new Date().toISOString().split('T')[0] %>" required>
-    </div>
-    <div>
-        <label for="odometerReading">Odometer Reading (kms):</label>
-        <input type="number" id="odometerReading" name="odometerReading" value="<%= refill.odometerReading || '' %>" required>
-    </div>
-    <div>
-        <label for="refillCost">Refill Cost (Rs.):</label>
-        <input type="number" id="refillCost" name="refillCost" step="0.01" value="<%= refill.refillCost ? refill.refillCost.toFixed(2) : '' %>" required>
-    </div>
-    <div>
-        <label for="fuelPrice">Fuel Price (Rs./Litre) at time of refill:</label>
-        <% if (refill && refill.id) { %> 
-            <input type="number" id="fuelPrice" name="fuelPrice" step="0.01" value="<%= refill.fuelPrice.toFixed(2) %>" required>
-        <% } else { %>
-            <input type="number" id="fuelPrice" name="fuelPrice" step="0.01" value="<%= currentFuelPrice.toFixed(2) %>" readonly required>
-            <small>Current system fuel price: <%= currentFuelPrice.toFixed(2) %> (from settings). This will be saved with the refill.</small>
+<div class="container mx-auto px-4 py-8 max-w-2xl">
+    <h1 class="text-3xl font-bold text-gray-800 mb-6"><%= title %></h1>
+
+    <form action="<%= actionUrl %>" method="POST" class="bg-white shadow-md rounded-lg px-8 pt-6 pb-8 mb-4">
+        <% if (refill && refill.id) { %>
+            <!-- Standard POST, backend logic handles it as update. No _method needed if routes are POST. -->
         <% } %>
-    </div>
-    <button type="submit">Save Refill</button>
-    <a href="/refills" class="button-link" style="background-color: #6c757d;">Cancel</a>
-</form>
+
+        <div class="mb-4">
+            <label for="date" class="block text-gray-700 text-sm font-bold mb-2">Date:</label>
+            <input type="date" id="date" name="date"
+                   value="<%= refill.date ? new Date(refill.date).toISOString().split('T')[0] : new Date().toISOString().split('T')[0] %>"
+                   class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 p-2" required>
+        </div>
+
+        <div class="mb-4">
+            <label for="odometerReading" class="block text-gray-700 text-sm font-bold mb-2">Odometer Reading (kms):</label>
+            <input type="number" id="odometerReading" name="odometerReading"
+                   value="<%= refill.odometerReading || '' %>"
+                   class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 p-2" required placeholder="e.g., 55200">
+        </div>
+
+        <div class="mb-4">
+            <label for="refillCost" class="block text-gray-700 text-sm font-bold mb-2">Refill Cost (Rs.):</label>
+            <input type="number" id="refillCost" name="refillCost" step="0.01"
+                   value="<%= refill.refillCost ? refill.refillCost.toFixed(2) : '' %>"
+                   class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 p-2" required placeholder="e.g., 3000.00">
+        </div>
+
+        <div class="mb-6">
+            <label for="fuelPrice" class="block text-gray-700 text-sm font-bold mb-2">Fuel Price (Rs./Litre) at time of refill:</label>
+            <% if (refill && refill.id) { %>
+                <input type="number" id="fuelPrice" name="fuelPrice" step="0.01"
+                       value="<%= refill.fuelPrice.toFixed(2) %>"
+                       class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 p-2" required>
+            <% } else { %>
+                <input type="number" id="fuelPrice" name="fuelPrice" step="0.01"
+                       value="<%= currentFuelPrice.toFixed(2) %>"
+                       class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 p-2 bg-gray-100" readonly required>
+                <small class="text-gray-600 mt-1">Current system fuel price: <%= currentFuelPrice.toFixed(2) %> (from settings). This will be saved with the refill.</small>
+            <% } %>
+        </div>
+
+        <div class="flex items-center justify-end space-x-3">
+            <a href="/refills" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center focus:outline-none focus:shadow-outline">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+                </svg>
+                Cancel
+            </a>
+            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded inline-flex items-center focus:outline-none focus:shadow-outline">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                </svg>
+                Save Refill
+            </button>
+        </div>
+    </form>
+</div>
 
 <%- include('../partials/footer') %>

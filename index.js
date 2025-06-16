@@ -22,6 +22,7 @@ app.use(express.urlencoded({ extended: true }));
 const settingsRoutes = require('./routes/settingsRoutes');
 const refillRoutes = require('./routes/refillsRoutes'); // Added
 const dashboardRoutes = require('./routes/dashboardRoutes'); // Added
+const dashboardController = require('./controllers/dashboardController'); // Added
 
 // Mount routes
 app.use('/settings', settingsRoutes);
@@ -29,10 +30,7 @@ app.use('/refills', refillRoutes); // Added
 app.use('/dashboard', dashboardRoutes); // Added
 
 // Define a basic GET route
-app.get('/', (req, res) => {
-  // res.json({ message: 'Hello World!' }); // Original
-  res.render('index', { title: 'Home' }); // Updated to render index.ejs
-});
+app.get('/', dashboardController.getDashboardData); // Changed to use dashboardController
 
 // Start the server
 app.listen(port, () => {

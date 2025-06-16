@@ -1,35 +1,89 @@
 <%- include('partials/header') %>
 
-<h1>Dashboard</h1>
+<h1 class="text-3xl font-bold mb-6 text-gray-800">Dashboard</h1>
 
 <% if (typeof stats !== 'undefined' && stats.totalRefills > 0) { %>
-    <div class="stats-cards-container">
-        <div class="stat-card">
-            <h2>Total Refills</h2>
-            <p class="stat-value"><%= stats.totalRefills %></p>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+        <!-- Total Refills Card -->
+        <div class="bg-white shadow-lg rounded-xl p-6 transform hover:scale-105 transition-transform duration-300 ease-in-out">
+            <div class="flex items-center">
+                <div class="mr-4 bg-blue-500 text-white p-3 rounded-lg">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </div>
+                <div>
+                    <h2 class="text-sm font-medium text-gray-500 uppercase tracking-wider">Total Refills</h2>
+                    <p class="text-3xl font-semibold text-gray-800"><%= stats.totalRefills %></p>
+                </div>
+            </div>
         </div>
-        <div class="stat-card">
-            <h2>Total Spent</h2>
-            <p class="stat-value">Rs. <%= stats.totalSpent.toFixed(2) %></p>
+
+        <!-- Total Spent Card -->
+        <div class="bg-white shadow-lg rounded-xl p-6 transform hover:scale-105 transition-transform duration-300 ease-in-out">
+            <div class="flex items-center">
+                <div class="mr-4 bg-green-500 text-white p-3 rounded-lg">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </div>
+                <div>
+                    <h2 class="text-sm font-medium text-gray-500 uppercase tracking-wider">Total Spent</h2>
+                    <p class="text-3xl font-semibold text-gray-800">Rs. <%= stats.totalSpent.toFixed(2) %></p>
+                </div>
+            </div>
         </div>
-        <div class="stat-card">
-            <h2>Overall Km/Litre</h2>
-            <p class="stat-value"><%= stats.overallKmPerLitre.toFixed(2) %></p>
+
+        <!-- Overall Km/Litre Card -->
+        <div class="bg-white shadow-lg rounded-xl p-6 transform hover:scale-105 transition-transform duration-300 ease-in-out">
+            <div class="flex items-center">
+                <div class="mr-4 bg-yellow-500 text-white p-3 rounded-lg">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </div>
+                <div>
+                    <h2 class="text-sm font-medium text-gray-500 uppercase tracking-wider">Overall Km/Litre</h2>
+                    <p class="text-3xl font-semibold text-gray-800"><%= stats.overallKmPerLitre.toFixed(2) %></p>
+                </div>
+            </div>
         </div>
-        <div class="stat-card">
-            <h2>Overall L/100Km</h2>
-            <p class="stat-value"><%= stats.overallLitrePer100Km.toFixed(2) %></p>
+
+        <!-- Overall L/100Km Card -->
+        <div class="bg-white shadow-lg rounded-xl p-6 transform hover:scale-105 transition-transform duration-300 ease-in-out">
+            <div class="flex items-center">
+                <div class="mr-4 bg-red-500 text-white p-3 rounded-lg">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </div>
+                <div>
+                    <h2 class="text-sm font-medium text-gray-500 uppercase tracking-wider">Overall L/100Km</h2>
+                    <p class="text-3xl font-semibold text-gray-800"><%= stats.overallLitrePer100Km.toFixed(2) %></p>
+                </div>
+            </div>
         </div>
+
         <% if (stats.totalRefills > 1) { %>
-        <div class="stat-card">
-            <h2>Overall Cost/Km</h2>
-            <p class="stat-value">Rs. <%= stats.overallCostPerKm.toFixed(2) %></p>
+        <!-- Overall Cost/Km Card -->
+        <div class="bg-white shadow-lg rounded-xl p-6 transform hover:scale-105 transition-transform duration-300 ease-in-out">
+            <div class="flex items-center">
+                <div class="mr-4 bg-indigo-500 text-white p-3 rounded-lg">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </div>
+                <div>
+                    <h2 class="text-sm font-medium text-gray-500 uppercase tracking-wider">Overall Cost/Km</h2>
+                    <p class="text-3xl font-semibold text-gray-800">Rs. <%= stats.overallCostPerKm.toFixed(2) %></p>
+                </div>
+            </div>
         </div>
         <% } %>
     </div>
 
     <!-- Charts container - canvases will always be rendered if totalRefills > 0 -->
-    <div class="charts-container">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div class="chart-card">
             <h2>Fuel Consumption (L/100Km)</h2>
             <canvas id="litrePer100KmChart"></canvas>

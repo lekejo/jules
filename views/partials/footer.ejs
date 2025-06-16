@@ -1,7 +1,40 @@
 </main>
-<footer>
+<footer class="bg-gray-800 text-white text-center p-4 mt-8">
     <p>&copy; <%= new Date().getFullYear() %> Fuel Management App</p>
 </footer>
-<!-- <script src="/js/main.js"></script> -->
+
+<!-- Settings Modal -->
+<div id="settingsModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center z-50">
+    <div class="relative mx-auto p-8 border w-full max-w-md shadow-lg rounded-xl bg-white">
+        <div class="flex justify-between items-center mb-6">
+            <h3 class="text-2xl font-semibold text-gray-800">Settings</h3>
+            <button id="closeSettingsModal" class="text-gray-400 hover:text-gray-600">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+        <form action="/settings" method="POST">
+            <div class="mb-6">
+                <label for="modalCurrentFuelPrice" class="block mb-2 text-sm font-medium text-gray-700">Current Fuel Price (Rs.):</label>
+                <input type="number" id="modalCurrentFuelPrice" name="currentFuelPrice" step="0.01"
+                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3"
+                       placeholder="0.00" required>
+            </div>
+            <div class="flex justify-end">
+                <button type="button" id="cancelSettingsModal" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 mr-3">
+                    Cancel
+                </button>
+                <button type="submit" class="text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+                    Save Changes
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    const globalCurrentFuelPrice = '<%= (typeof stats !== "undefined" && typeof stats.currentFuelPriceForModal !== "undefined") ? parseFloat(stats.currentFuelPriceForModal).toFixed(2) : "0.00" %>';
+</script>
+<script src="/js/main.js"></script>
 </body>
 </html>

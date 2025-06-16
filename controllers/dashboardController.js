@@ -100,11 +100,14 @@ exports.getDashboardData = (req, res) => {
     // Fetch current fuel price for the modal
     db.get("SELECT currentFuelPrice FROM Settings WHERE id = 1", [], (settingsErr, settingsRow) => {
       if (settingsErr) {
-        console.error("Error fetching settings for modal:", settingsErr.message);
-        // Continue without modal price or send error? For now, proceed without it.
+        console.error("Error fetching settings for modal in dashboardController:", settingsErr.message);
         stats.currentFuelPriceForModal = 0.0; // Default if error
+      } else if (!settingsRow) {
+        console.warn("No settings row found (id=1) for modal in dashboardController. Defaulting price to 0.0.");
+        stats.currentFuelPriceForModal = 0.0;
       } else {
-        stats.currentFuelPriceForModal = settingsRow ? settingsRow.currentFuelPrice : 0.0;
+        console.log("Fetched currentFuelPrice for modal:", settingsRow.currentFuelPrice);
+        stats.currentFuelPriceForModal = settingsRow.currentFuelPrice;
       }
       res.render('dashboard', { title: 'Dashboard', stats });
     });

@@ -8,21 +8,24 @@ document.addEventListener('DOMContentLoaded', () => {
     const settingsModal = document.getElementById('settingsModal');
     const modalFuelPriceInput = document.getElementById('modalCurrentFuelPrice');
 
-    // Note: The 'globalCurrentFuelPrice' variable is expected to be defined
-    // in a <script> tag in the HTML, typically before this script is loaded.
-    // Example: <script>const globalCurrentFuelPrice = '100.50';</script>
-    // This will be set up in a later step.
-
     if (openSettingsModalButton && settingsModal && modalFuelPriceInput) {
         openSettingsModalButton.addEventListener('click', () => {
-            // Populate current fuel price when modal opens
-            if (typeof globalCurrentFuelPrice !== 'undefined' && globalCurrentFuelPrice !== null && globalCurrentFuelPrice.trim() !== '') {
-                 modalFuelPriceInput.value = parseFloat(globalCurrentFuelPrice).toFixed(2);
+            console.log('Attempting to open settings modal.');
+            console.log('Raw globalCurrentFuelPrice from EJS:', typeof globalCurrentFuelPrice !== 'undefined' ? globalCurrentFuelPrice : 'undefined');
+
+            if (typeof globalCurrentFuelPrice !== 'undefined' && globalCurrentFuelPrice !== null) {
+                const trimmedPrice = String(globalCurrentFuelPrice).trim();
+                console.log('Trimmed globalCurrentFuelPrice:', trimmedPrice);
+                if (trimmedPrice !== '' && !isNaN(parseFloat(trimmedPrice))) {
+                    modalFuelPriceInput.value = parseFloat(trimmedPrice).toFixed(2);
+                    console.log('Set modal input to:', modalFuelPriceInput.value);
+                } else {
+                    console.warn('globalCurrentFuelPrice is empty or not a valid number after trim. Value:', globalCurrentFuelPrice);
+                    modalFuelPriceInput.value = "0.00"; // Default if problematic
+                }
             } else {
-                // Fallback if globalCurrentFuelPrice isn't set or is empty
-                // You might want to fetch this value from the server if not available
-                // For now, if not set, it will use the input's placeholder or current value.
-                console.warn('globalCurrentFuelPrice is not set. Modal might show placeholder or last input.');
+                console.warn('globalCurrentFuelPrice is undefined or null. Setting modal input to default 0.00.');
+                modalFuelPriceInput.value = "0.00"; // Default if undefined/null
             }
             settingsModal.classList.remove('hidden');
             settingsModal.classList.add('flex'); // Use flex to center content
@@ -43,11 +46,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Optional: Close modal if clicking outside of it
     if (settingsModal) {
         settingsModal.addEventListener('click', (event) => {
-            // Check if the click is on the backdrop (settingsModal itself)
-            // and not on its children (the modal content).
             if (event.target === settingsModal) {
                 settingsModal.classList.add('hidden');
                 settingsModal.classList.remove('flex');

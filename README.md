@@ -1,5 +1,26 @@
 # Fuel Refill Management App
 
+## Table of Contents
+
+-   [Application Description](#application-description)
+-   [Features](#features)
+-   [Technology Stack](#technology-stack)
+-   [Setup and Running the Application](#setup-and-running-the-application)
+    -   [Installation Prerequisites (What You'll Need)](#installation-prerequisites-what-youll-need)
+        -   [Understanding a Few Basics (For Complete Beginners)](#understanding-a-few-basics-for-complete-beginners)
+        -   [Software You'll Need](#software-youll-need)
+    -   [Step-by-Step Installation and Running the App](#step-by-step-installation-and-running-the-app)
+        -   [1. Getting the Application Code](#1-getting-the-application-code)
+        -   [2. Setting Up the Application](#2-setting-up-the-application)
+        -   [3. Running the Application](#3-running-the-application)
+        -   [4. Stopping the Application (When You're Done)](#4-stopping-the-application-when-youre-done)
+-   [Usage Guide](#usage-guide)
+    -   [1. Navigating the App](#1-navigating-the-app)
+    -   [2. Settings](#2-settings)
+    -   [3. Managing Refills](#3-managing-refills)
+    -   [4. Viewing the Dashboard](#4-viewing-the-dashboard)
+-   [Future Enhancements](#future-enhancements)
+
 ## Application Description
 
 The Fuel Refill Management App is a web-based tool designed to help users meticulously track their vehicle's fuel expenses and consumption patterns. Its primary purpose is to provide a clear overview of how much is being spent on fuel and to offer insights into the vehicle's efficiency over time. This application is ideal for any individual who wishes to monitor their fuel usage, manage related costs, and understand their vehicle's performance metrics like mileage and cost per kilometer. By logging each refill, users can gain valuable data to make informed decisions about their driving habits and vehicle maintenance.
@@ -66,7 +87,7 @@ This section will guide you through setting up the necessary software to run the
         *   **Windows:**
             1.  Go to the official Node.js website: [https://nodejs.org/](https://nodejs.org/)
             2.  Download the **LTS** (Long Term Support) version. This is generally recommended for most users as it's the most stable and supported.
-            3.  Run the downloaded installer (it's usually a `.msi` file). Follow the on-screen instructions. Accepting the default options during installation is usually fine for most users.
+            3.  Run the downloaded `.msi` installer. Follow the on-screen instructions – accepting the default options is generally fine. **Ensure that the option to 'Add to PATH' or similar is selected (it usually is by default and is important for the commands to work easily).**
             4.  After installation, close and reopen your Command Prompt or PowerShell and try the `node -v` and `npm -v` commands again to verify the installation.
 
         *   **macOS:**
@@ -100,7 +121,7 @@ This section will guide you through setting up the necessary software to run the
     *   **What it is:**
         This is a text-based window where you can type commands to tell your computer what to do. We'll use it for a few steps like installing the app's dependencies and starting the application.
     *   **How to open it:**
-        *   **Windows:** Search for "Command Prompt" or "PowerShell" in the Start Menu.
+        *   **Windows:** Search for "Command Prompt" or "PowerShell" in the Start Menu. Windows 11 also includes **Windows Terminal**, which can open Command Prompt and PowerShell tabs; you can search for "Terminal".
         *   **macOS:** Open "Spotlight Search" (by pressing Cmd + Space), type "Terminal", and press Enter.
         *   **Linux:** The shortcut is often Ctrl + Alt + T. Alternatively, search for "Terminal" in your applications menu.
 
